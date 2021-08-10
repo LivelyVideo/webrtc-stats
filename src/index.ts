@@ -1,4 +1,3 @@
-import type {types} from "mediasoup-client";
 import {EventEmitter} from "events";
 import {
     WebRTCStatsConstructorOptions,
@@ -297,12 +296,12 @@ export class WebRTCStats extends EventEmitter {
             try {
                 let statsObject: Record<string, unknown> = {};
 
-                const producers: types.Consumer[] = Array.from((send as any)?._producers ?? new Map(), ([k, v]) => v);
-                const consumers: types.Producer[] = Array.from((recv as any)?._consumers ?? new Map(), ([k, v]) => v);
+                const producers: any /* types.Consumer[] */ = Array.from((send as any)?._producers ?? new Map(), ([k, v]) => v);
+                const consumers: any /* types.Producer[] */ = Array.from((recv as any)?._consumers ?? new Map(), ([k, v]) => v);
 
-                const producersStats = await Promise.all(producers.map(p => p.getStats()));
-                const consumersStats = await Promise.all(consumers.map(c => c.getStats()));
-                const allReports = [...producersStats, ...consumersStats];
+                const producersStats = await Promise.all(producers.map((p: any) => p.getStats()));
+                const consumersStats = await Promise.all(consumers.map((c: any) => c.getStats()));
+                const allReports = [...producersStats, ...consumersStats] as any;
 
                 for (let i = 0; i < producersStats.length; i++) {
                     map2obj(producersStats[i], producers[i].appData, producers[i].track?.getSettings(), statsObject);

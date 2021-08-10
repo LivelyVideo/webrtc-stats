@@ -1,5 +1,4 @@
 import {StatsObject, CodecInfo, TrackReport, ParseStatsOptions} from "./types/index";
-import {types} from "mediasoup-client";
 
 /**
  * A set of methods used to parse the rtc stats

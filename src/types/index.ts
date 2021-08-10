@@ -1,5 +1,3 @@
-import type {types} from "mediasoup-client";
-
 export interface WebRTCStatsConstructorOptions {
     getStatsInterval: number;
     rawStats?: boolean;
@@ -23,8 +21,8 @@ export type LogLevel = "none" | "error" | "warn" | "info" | "debug";
 export type TimelineTag = "getUserMedia" | "peer" | "connection" | "track" | "datachannel" | "stats";
 
 export interface TransportsInfo {
-    send?: types.Transport;
-    recv?: types.Transport;
+    send?: any; // types.Transport;
+    recv?: any; // types.Transport;
     sendPC?: RTCPeerConnection;
     recvPC?: RTCPeerConnection;
     peerId: string;
@@ -45,8 +43,8 @@ export interface TimelineEvent {
 }
 
 export interface AddPeerOptions {
-    sendTransport?: types.Transport;
-    recvTransport?: types.Transport;
+    sendTransport?: any; // types.Transport;
+    recvTransport?: any; // types.Transport;
     peerId: string;
     remote?: boolean;
 }
@@ -105,7 +103,7 @@ export interface ParseStatsOptions {
     remote?: boolean;
 }
 
-export type PeerListener = (transport: types.Transport, pc: RTCPeerConnection, peerId: string, ev?: any) => void;
+export type PeerListener = (transport: any /* types.Transport */, pc: RTCPeerConnection, peerId: string, ev?: any) => void;
 
 export interface PeerListenersMap {
     icecandidate: PeerListener;
