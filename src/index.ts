@@ -301,15 +301,24 @@ export class WebRTCStats extends EventEmitter {
 
                 const producersStats = await Promise.all(producers.map((p: any) => p.getStats()));
                 const consumersStats = await Promise.all(consumers.map((c: any) => c.getStats()));
-                const allReports = [...producersStats, ...consumersStats] as any;
 
                 for (let i = 0; i < producersStats.length; i++) {
-                    map2obj(producersStats[i], producers[i].appData, producers[i].track?.getSettings(), statsObject);
+                    producersStats[i] = map2obj(
+                        producersStats[i],
+                        {producerId: producers[i].id, appData: producers[i].appData, track: producers[i].track?.getSettings()},
+                        statsObject
+                    );
                 }
 
                 for (let i = 0; i < consumersStats.length; i++) {
-                    map2obj(consumersStats[i], consumers[i].appData, consumers[i].track?.getSettings(), statsObject);
+                    consumersStats[i] = map2obj(
+                        consumersStats[i],
+                        {consumerId: consumers[i].id, appData: consumers[i].appData, track: consumers[i].track?.getSettings()},
+                        statsObject
+                    );
                 }
+
+                const allReports = [...producersStats, ...consumersStats] as any;
 
                 if (Object.keys(statsObject).length > 0) {
                     const parseStatsOptions: ParseStatsOptions = {remote: peerObject.options.remote};

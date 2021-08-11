@@ -74,15 +74,17 @@ export function computeBitrate(newReport: TrackReport, oldReport: TrackReport | 
     return rate != null ? rate * 8 : null;
 }
 
-export function map2obj(stats: any, appData: any, track: MediaTrackSettings | undefined, output: Record<string, any>) {
+export function map2obj(stats: any, additional: Record<string, unknown>, output: Record<string, any>) :Map<string, unknown> {
     if (!stats.entries) {
         return stats;
     }
-    stats.forEach(function (v: unknown, k: string) {
-        output[k] = v;
-        output[k].appData = appData;
-        output[k].track = track;
+    const newStats = new Map<string, unknown>();
+    stats.forEach(function (v: any, k: string) {
+        const obj = Object.assign({}, v, additional);
+        output[k] = obj;
+        newStats.set(k, obj);
     });
+    return newStats;
 }
 
 // Enumerates the new standard compliant stats using local and remote track ids.
