@@ -1,6 +1,6 @@
 {
   "name": "@livelyvideo/webrtc-stats",
-  "version": "4.0.2",
+  "version": "4.0.4",
   "description": "Library that helps collect and parse webrtc stats.",
   "main": "dist/index.js",
   "repository": "https://github.com/peermetrics/webrtc-stats",
@@ -23,10 +23,9 @@
     "node": ">=8"
   },
   "dependencies": {
-    "events": "^3"
+    "@livelyvideo/events-typed": "^3.0.0"
   },
   "devDependencies": {
-    "@livelyvideo/events-types": "3.0.0",
     "http-server": "^0.12.3",
     "standard": "^14.3.4",
     "typescript": "4.3.5"

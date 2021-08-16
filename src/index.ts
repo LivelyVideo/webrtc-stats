@@ -1,4 +1,4 @@
-import {EventEmitter} from "events";
+import {EventEmitter} from "@livelyvideo/events-typed";
 import {
     WebRTCStatsConstructorOptions,
     AddPeerOptions,

@@ -14,14 +14,13 @@
       "esnext",
       "dom"
     ],
-    "types": [
-      "@livelyvideo/events-types"
-    ],
+    "types": [],
     "skipLibCheck": true,
     "outDir": "dist",
     "declarationDir": "dist",
     "declaration": true,
     "declarationMap": true,
+    "module": "CommonJS",
     "moduleResolution": "Node"
   },
   "include": [
