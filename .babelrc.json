@@ -1,9 +1,0 @@
-{
-  "presets": [
-    "minify",
-    ["@babel/env", {
-        "targets": "defaults"
-    }],
-    "@babel/typescript"
-  ]
-}
