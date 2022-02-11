@@ -16,7 +16,9 @@ import {
     TrackReport,
 } from "./types/index";
 
-import {parseStats, map2obj} from "./utils";
+import { parseStats, map2obj } from "./utils";
+
+import throttledQueue from 'throttled-queue';
 
 export {
     WebRTCStatsConstructorOptions,
@@ -299,8 +301,10 @@ export class WebRTCStats extends EventEmitter {
                 const producers: any /* types.Consumer[] */ = Array.from((send as any)?._producers ?? new Map(), ([k, v]) => v);
                 const consumers: any /* types.Producer[] */ = Array.from((recv as any)?._consumers ?? new Map(), ([k, v]) => v);
 
-                const producersStats = await Promise.all(producers.map((p: any) => p.getStats()));
-                const consumersStats = await Promise.all(consumers.map((c: any) => c.getStats()));
+              const throttle = throttledQueue(1, 5000);
+              
+              const producersStats = await throttle(() => { Promise.all(producers.map((p: any) => p.getStats())) });
+              const consumersStats = await throttle(() => { Promise.all(consumers.map((c: any) => c.getStats())) });
 
                 for (let i = 0; i < producersStats.length; i++) {
                     producersStats[i] = map2obj(

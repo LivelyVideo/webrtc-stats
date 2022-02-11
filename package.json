@@ -23,7 +23,8 @@
     "node": ">=8"
   },
   "dependencies": {
-    "@livelyvideo/events-typed": "^3.0.0"
+    "@livelyvideo/events-typed": "^3.0.0",
+    "throttled-queue": "^2.1.2"
   },
   "devDependencies": {
     "http-server": "^0.12.3",
