@@ -301,12 +301,11 @@ export class WebRTCStats extends EventEmitter {
                 const producers: any /* types.Consumer[] */ = Array.from((send as any)?._producers ?? new Map(), ([k, v]) => v);
                 const consumers: any /* types.Producer[] */ = Array.from((recv as any)?._consumers ?? new Map(), ([k, v]) => v);
 
-              const halfInterval = this._getStatsInterval / 2;
-              const producersThrottle = throttledQueue(1, halfInterval / producers.length);
-              const consumersThrottle = throttledQueue(1, halfInterval / consumers.length);
-              
-              const producersStats = await Promise.all(producers.map((p: any) => producersThrottle(p.getStats())));
-              const consumersStats = await Promise.all(consumers.map((c: any) => consumersThrottle(c.getStats())));
+                const throttle = throttledQueue(1, this._getStatsInterval / (producers.length + consumers.length));
+
+                const producersStatsPromise = Promise.all(producers.map((p: any) => throttle(p.getStats())));
+                const consumersStatsPromise = Promise.all(consumers.map((c: any) => throttle(c.getStats())));
+                const [producersStats, consumersStats] = await Promise.all([producersStatsPromise, consumersStatsPromise]);
 
                 for (let i = 0; i < producersStats.length; i++) {
                     producersStats[i] = map2obj(
