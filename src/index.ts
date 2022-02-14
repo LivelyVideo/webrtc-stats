@@ -303,8 +303,12 @@ export class WebRTCStats extends EventEmitter {
 
                 const throttle = throttledQueue(1, this._getStatsInterval / (producers.length + consumers.length));
 
-                const producersStatsPromise = Promise.all(producers.map((p: any) => throttle(p.getStats())));
-                const consumersStatsPromise = Promise.all(consumers.map((c: any) => throttle(c.getStats())));
+                const producersStatsPromise = Promise.all(producers.map((p: any) => throttle(() => {
+                    return p.getStats()
+                })));
+                const consumersStatsPromise = Promise.all(consumers.map((c: any) => throttle(() => {
+                    return c.getStats()
+                })));
                 const [producersStats, consumersStats] = await Promise.all([producersStatsPromise, consumersStatsPromise]);
 
                 for (let i = 0; i < producersStats.length; i++) {
